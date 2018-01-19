@@ -31,15 +31,15 @@
 </style>
 
 <script>
-import { mapMutations } from 'vuex';
-import uuid from 'uuid/v4';
+import { mapMutations } from 'vuex'
+import uuid from 'uuid/v4'
 
 export default {
   name: 'Home',
 
   data () {
     return {
-      room: uuid(),
+      room: this.$route.query.room || uuid(),
       name: ''
     }
   },
@@ -49,17 +49,17 @@ export default {
       setMyName: 'setMyName'
     }),
 
-    join() {
+    join () {
       if (this.name === '' || this.room === '') {
-        return;
+        return
       }
-      this.setMyName(this.name);
+      this.setMyName(this.name)
       this.$router.push({
         name: 'room',
         params: {
           room: this.room
         }
-      });
+      })
     }
   }
 }

@@ -1,3 +1,3 @@
 export const setMyName = (state, name) => {
-  state.user.name = name;
+  state.user.name = name
 }
