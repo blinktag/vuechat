@@ -1,3 +1,9 @@
 export default {
-  room: 'mainchat'
+  room: '',
+  user: {
+    name: '',
+    muted: false,
+    paused: false
+  },
+  clients: []
 }
