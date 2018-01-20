@@ -1,7 +1,7 @@
 <template>
   <div class="room">
     <div class="people" id="people">
-      <div class="person" v-for="x in 10">
+      <div class="person">
         <div class="person__video">
           <video></video>
         </div>
