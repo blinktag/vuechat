@@ -10,13 +10,18 @@
         </div>
       </div>
     </div>
+
+    <person :client="client" v-for="client in clients" :key="client.peer.id"></person>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+import Person from './partials/Person'
 
 export default {
+
+  components: { Person },
   props: {
     room: String
   },
@@ -26,8 +31,18 @@ export default {
       user: 'getUser'
     })
   },
+  methods: {
+    ...mapMutations({
+      addPeer: 'addPeer'
+    })
+  },
   mounted () {
     window.webrtc.joinRoom(this.room)
+
+    window.webrtc.on('videoAdded', (video, peer) => {
+      this.addPeer({ video, peer })
+    })
+
     window.webrtc.on('localStream', (stream) => {
       let attachMediaStream = require('attachmediastream')
 
