@@ -3,10 +3,10 @@
     <div class="people" id="people">
       <div class="person">
         <div class="person__video">
-          <video></video>
+          <video ref="me"></video>
         </div>
         <div class="person__name">
-          Mark
+          {{ user.name }}
         </div>
       </div>
     </div>
@@ -14,9 +14,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   props: {
     room: String
+  },
+  computed: {
+    ...mapGetters({
+      clients: 'getClients',
+      user: 'getUser'
+    })
+  },
+  mounted () {
+    window.webrtc.joinRoom(this.room)
+    window.webrtc.on('localStream', (stream) => {
+      let attachMediaStream = require('attachmediastream')
+
+      attachMediaStream(stream, this.$refs.me, {
+        autoplay: true,
+        mirror: true,
+        muted: true
+      })
+    })
   }
 }
 </script>
