@@ -20,7 +20,7 @@ export default new Router({
       component: RoomIndex,
       props: true,
       beforeEnter: (to, from, next) => {
-        if (!store.getters.getUser.name) {
+        if (!store.getters.getState.name) {
           next({
             name: 'home',
             query: {

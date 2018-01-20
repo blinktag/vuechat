@@ -6,34 +6,36 @@
           <video ref="me"></video>
         </div>
         <div class="person__name">
-          {{ user.name }}
+          {{ state.name }}
         </div>
       </div>
+      <person v-for="client in clients" :client="client" :key="client.peer.id"></person>
     </div>
-
-    <person :client="client" v-for="client in clients" :key="client.peer.id"></person>
+    <controls></controls>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
 import Person from './partials/Person'
+import Controls from './partials/Controls'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
 
-  components: { Person },
+  components: { Person, Controls },
   props: {
     room: String
   },
   computed: {
     ...mapGetters({
       clients: 'getClients',
-      user: 'getUser'
+      state: 'getState'
     })
   },
   methods: {
     ...mapMutations({
-      addPeer: 'addPeer'
+      addPeer: 'addPeer',
+      removePeer: 'removePeer'
     })
   },
   mounted () {
@@ -41,6 +43,10 @@ export default {
 
     window.webrtc.on('videoAdded', (video, peer) => {
       this.addPeer({ video, peer })
+    })
+
+    window.webrtc.on('videoRemoved', (video, peer) => {
+      this.removePeer(peer)
     })
 
     window.webrtc.on('localStream', (stream) => {

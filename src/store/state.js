@@ -1,6 +1,6 @@
 export default {
   room: '',
-  user: {
+  state: {
     name: '',
     muted: false,
     paused: false
